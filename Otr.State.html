@@ -1,0 +1,155 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN">
+<html>
+<head>
+<link rel="stylesheet" href="style.css" type="text/css">
+<meta content="text/html; charset=iso-8859-1" http-equiv="Content-Type">
+<link rel="Start" href="index.html">
+<link rel="next" href="Otr.Engine.html">
+<link rel="Up" href="Otr.html">
+<link title="Index of types" rel=Appendix href="index_types.html">
+<link title="Index of values" rel=Appendix href="index_values.html">
+<link title="Index of modules" rel=Appendix href="index_modules.html">
+<link title="Otr" rel="Chapter" href="Otr.html"><title>Otr.State</title>
+</head>
+<body>
+<div class="navbar">&nbsp;<a class="up" href="Otr.html" title="Otr">Up</a>
+&nbsp;<a class="post" href="Otr.Engine.html" title="Otr.Engine">Next</a>
+</div>
+<h1>Module <a href="type_Otr.State.html">Otr.State</a></h1>
+
+<pre><span class="keyword">module</span> State: <code class="code">sig</code> <a href="Otr.State.html">..</a> <code class="code">end</code></pre><hr width="100%">
+
+<pre><span id="TYPEret"><span class="keyword">type</span> <code class="type"></code>ret</span> = <code class="type">[ `Established_encrypted_session of string<br>       | `Received of string<br>       | `Received_encrypted of string<br>       | `Received_error of string<br>       | `SMP_awaiting_secret<br>       | `SMP_failure<br>       | `SMP_received_question of string<br>       | `SMP_success<br>       | `Warning of string ]</code> </pre>
+<div class="info ">
+possible return values from engine functions<br>
+</div>
+
+
+<pre><span id="TYPEpolicy"><span class="keyword">type</span> <code class="type"></code>policy</span> = <code class="type">[ `ERROR_START_AKE<br>       | `REQUIRE_ENCRYPTION<br>       | `REVEAL_MACS<br>       | `SEND_WHITESPACE_TAG<br>       | `WHITESPACE_START_AKE ]</code> </pre>
+<div class="info ">
+OTR configurable policies<br>
+</div>
+
+
+<pre><span id="VALpolicy_to_string"><span class="keyword">val</span> policy_to_string</span> : <code class="type"><a href="Otr.State.html#TYPEpolicy">policy</a> -> string</code></pre><div class="info ">
+returns a string given a policy<br>
+</div>
+
+<pre><span id="VALstring_to_policy"><span class="keyword">val</span> string_to_policy</span> : <code class="type">string -> <a href="Otr.State.html#TYPEpolicy">policy</a> option</code></pre><div class="info ">
+returns a policy option given a string<br>
+</div>
+
+<pre><span id="VALall_policies"><span class="keyword">val</span> all_policies</span> : <code class="type"><a href="Otr.State.html#TYPEpolicy">policy</a> list</code></pre><div class="info ">
+returns a list of all available policies<br>
+</div>
+
+<pre><span id="TYPEversion"><span class="keyword">type</span> <code class="type"></code>version</span> = <code class="type">[ `V2 | `V3 ]</code> </pre>
+<div class="info ">
+OTR protocol versions<br>
+</div>
+
+
+<pre><span id="VALversion_to_string"><span class="keyword">val</span> version_to_string</span> : <code class="type"><a href="Otr.State.html#TYPEversion">version</a> -> string</code></pre><div class="info ">
+return a string given a version<br>
+</div>
+
+<pre><span id="VALstring_to_version"><span class="keyword">val</span> string_to_version</span> : <code class="type">string -> <a href="Otr.State.html#TYPEversion">version</a> option</code></pre><div class="info ">
+return a version option given a string<br>
+</div>
+
+<pre><span id="VALall_versions"><span class="keyword">val</span> all_versions</span> : <code class="type"><a href="Otr.State.html#TYPEversion">version</a> list</code></pre><div class="info ">
+returns a list of all available versions<br>
+</div>
+
+<pre><span id="TYPEsession"><span class="keyword">type</span> <code class="type"></code>session</span> </pre>
+<div class="info ">
+some otr session<br>
+</div>
+
+
+<pre><code><span id="TYPEconfig"><span class="keyword">type</span> <code class="type"></code>config</span> = {</code></pre><table class="typetable">
+<tr>
+<td align="left" valign="top" >
+<code>&nbsp;&nbsp;</code></td>
+<td align="left" valign="top" >
+<code><span id="TYPEELTconfig.policies">policies</span>&nbsp;: <code class="type"><a href="Otr.State.html#TYPEpolicy">policy</a> list</code>;</code></td>
+
+</tr>
+<tr>
+<td align="left" valign="top" >
+<code>&nbsp;&nbsp;</code></td>
+<td align="left" valign="top" >
+<code><span id="TYPEELTconfig.versions">versions</span>&nbsp;: <code class="type"><a href="Otr.State.html#TYPEversion">version</a> list</code>;</code></td>
+
+</tr></table>
+}
+
+<div class="info ">
+an otr config<br>
+</div>
+
+
+<pre><span id="VALconfig"><span class="keyword">val</span> config</span> : <code class="type"><a href="Otr.State.html#TYPEversion">version</a> list -> <a href="Otr.State.html#TYPEpolicy">policy</a> list -> <a href="Otr.State.html#TYPEconfig">config</a></code></pre><div class="info ">
+config constructor, given a version list, policy list and DSA private key<br>
+</div>
+
+<pre><span id="VALversion"><span class="keyword">val</span> version</span> : <code class="type"><a href="Otr.State.html#TYPEsession">session</a> -> <a href="Otr.State.html#TYPEversion">version</a></code></pre><div class="info ">
+returns the spoken protocol version in this session<br>
+</div>
+
+<pre><span id="VALsession_to_string"><span class="keyword">val</span> session_to_string</span> : <code class="type"><a href="Otr.State.html#TYPEsession">session</a> -> string</code></pre><div class="info ">
+string representation of a session<br>
+</div>
+
+<pre><span id="VALnew_session"><span class="keyword">val</span> new_session</span> : <code class="type"><a href="Otr.State.html#TYPEconfig">config</a> -> Nocrypto.Dsa.priv -> unit -> <a href="Otr.State.html#TYPEsession">session</a></code></pre><div class="info ">
+creates a new session given a configuration<br>
+</div>
+
+<pre><span id="VALis_encrypted"><span class="keyword">val</span> is_encrypted</span> : <code class="type"><a href="Otr.State.html#TYPEsession">session</a> -> bool</code></pre><div class="info ">
+returns whether the session is in encryption state<br>
+</div>
+
+<pre><span id="VALtheir_dsa"><span class="keyword">val</span> their_dsa</span> : <code class="type"><a href="Otr.State.html#TYPEsession">session</a> -> Nocrypto.Dsa.pub option</code></pre><div class="info ">
+returns the DSA public key used by the communication partner (if session is encrypted)<br>
+</div>
+
+<pre><span id="VALpolicy_of_sexp"><span class="keyword">val</span> policy_of_sexp</span> : <code class="type">Sexplib.Sexp.t -> <a href="Otr.State.html#TYPEpolicy">policy</a></code></pre>
+<pre><span id="VAL__policy_of_sexp__"><span class="keyword">val</span> __policy_of_sexp__</span> : <code class="type">Sexplib.Sexp.t -> <a href="Otr.State.html#TYPEpolicy">policy</a></code></pre>
+<pre><span id="VALsexp_of_policy"><span class="keyword">val</span> sexp_of_policy</span> : <code class="type"><a href="Otr.State.html#TYPEpolicy">policy</a> -> Sexplib.Sexp.t</code></pre><br>
+returns a string given a policy<br>
+<br>
+returns a policy option given a string<br>
+<br>
+returns a list of all available policies<br>
+
+<pre><span id="VALversion_of_sexp"><span class="keyword">val</span> version_of_sexp</span> : <code class="type">Sexplib.Sexp.t -> <a href="Otr.State.html#TYPEversion">version</a></code></pre><div class="info ">
+OTR protocol versions<br>
+</div>
+
+<pre><span id="VAL__version_of_sexp__"><span class="keyword">val</span> __version_of_sexp__</span> : <code class="type">Sexplib.Sexp.t -> <a href="Otr.State.html#TYPEversion">version</a></code></pre>
+<pre><span id="VALsexp_of_version"><span class="keyword">val</span> sexp_of_version</span> : <code class="type"><a href="Otr.State.html#TYPEversion">version</a> -> Sexplib.Sexp.t</code></pre><br>
+return a string given a version<br>
+<br>
+return a version option given a string<br>
+<br>
+returns a list of all available versions<br>
+<br>
+some otr session<br>
+
+<pre><span id="VALconfig_of_sexp"><span class="keyword">val</span> config_of_sexp</span> : <code class="type">Sexplib.Sexp.t -> <a href="Otr.State.html#TYPEconfig">config</a></code></pre><div class="info ">
+an otr config<br>
+</div>
+
+<pre><span id="VALsexp_of_config"><span class="keyword">val</span> sexp_of_config</span> : <code class="type"><a href="Otr.State.html#TYPEconfig">config</a> -> Sexplib.Sexp.t</code></pre><br>
+config constructor, given a version list, policy list and DSA private key<br>
+<br>
+returns the spoken protocol version in this session<br>
+<br>
+string representation of a session<br>
+<br>
+creates a new session given a configuration<br>
+<br>
+returns whether the session is in encryption state<br>
+<br>
+returns the DSA public key used by the communication partner (if session is encrypted)<br>
+</body></html>
