@@ -9,7 +9,8 @@
 <link title="Index of types" rel=Appendix href="index_types.html">
 <link title="Index of values" rel=Appendix href="index_values.html">
 <link title="Index of modules" rel=Appendix href="index_modules.html">
-<link title="Otr" rel="Chapter" href="Otr.html"><title>Otr.Utils</title>
+<link title="Otr" rel="Chapter" href="Otr.html"><link title="Fingerprint Utilities" rel="Section" href="#1_FingerprintUtilities">
+<title>Otr.Utils</title>
 </head>
 <body>
 <div class="navbar"><a class="pre" href="Otr.Engine.html" title="Otr.Engine">Previous</a>
@@ -17,13 +18,23 @@
 &nbsp;</div>
 <h1>Module <a href="type_Otr.Utils.html">Otr.Utils</a></h1>
 
-<pre><span class="keyword">module</span> Utils: <code class="code">sig</code> <a href="Otr.Utils.html">..</a> <code class="code">end</code></pre><hr width="100%">
+<pre><span class="keyword">module</span> Utils: <code class="code">sig</code> <a href="Otr.Utils.html">..</a> <code class="code">end</code></pre><div class="info module top">
+Utilities<br>
+</div>
+<hr width="100%">
+<br>
+<h1 id="1_FingerprintUtilities">Fingerprint Utilities</h1><br>
+<br>
+An OTR fingerprint is the <code class="code">`SHA1</code> hash of the public key
+      prepended with the key type.<br>
 
 <pre><span id="VALtheir_fingerprint"><span class="keyword">val</span> their_fingerprint</span> : <code class="type"><a href="Otr.State.html#TYPEsession">Otr.State.session</a> -> string option</code></pre><div class="info ">
-returns the fingerprint of the communication partner if the session is encrypted<br>
+<code class="code">their_fingerprint session</code> is <code class="code">fp</code>, the fingerprint of the
+      communication partner (<code class="code">None</code> if no session is established).<br>
 </div>
 
 <pre><span id="VALown_fingerprint"><span class="keyword">val</span> own_fingerprint</span> : <code class="type">Nocrypto.Dsa.priv -> string</code></pre><div class="info ">
-returns the own fingerprint of the DSA key in the configuration<br>
+<code class="code">own_fingerprint dsa</code> is <code class="code">fp</code>, the fingerprint of the private
+      DSA key.<br>
 </div>
 </body></html>
