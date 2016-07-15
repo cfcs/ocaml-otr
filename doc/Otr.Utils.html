@@ -1,0 +1,43 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN">
+<html>
+<head>
+<link rel="stylesheet" href="style.css" type="text/css">
+<meta content="text/html; charset=utf-8" http-equiv="Content-Type">
+<link rel="Start" href="index.html">
+<link rel="previous" href="Otr.Engine.html">
+<link rel="Up" href="Otr.html">
+<link title="Index of types" rel=Appendix href="index_types.html">
+<link title="Index of values" rel=Appendix href="index_values.html">
+<link title="Index of modules" rel=Appendix href="index_modules.html">
+<link title="Otr" rel="Chapter" href="Otr.html"><link title="Fingerprint Utilities" rel="Section" href="#1_FingerprintUtilities">
+<link title="Fingerprint Utilities" rel="Section" href="#1_FingerprintUtilities">
+<title>Otr.Utils</title>
+</head>
+<body>
+<div class="navbar"><a class="pre" href="Otr.Engine.html" title="Otr.Engine">Previous</a>
+&nbsp;<a class="up" href="Otr.html" title="Otr">Up</a>
+&nbsp;</div>
+<h1>Module <a href="type_Otr.Utils.html">Otr.Utils</a></h1>
+
+<pre><span class="keyword">module</span> Utils: <code class="code"><span class="keyword">sig</span></code> <a href="Otr.Utils.html">..</a> <code class="code"><span class="keyword">end</span></code></pre><div class="info module top">
+Utilities<br>
+</div>
+<hr width="100%">
+<br>
+<h1 id="1_FingerprintUtilities">Fingerprint Utilities</h1><br>
+<br>
+<h1 id="1_FingerprintUtilities">Fingerprint Utilities</h1><br>
+<br>
+An OTR fingerprint is the <code class="code"><span class="keywordsign">`</span><span class="constructor">SHA1</span></code> hash of the public key
+      prepended with the key type.<br>
+
+<pre><span id="VALtheir_fingerprint"><span class="keyword">val</span> their_fingerprint</span> : <code class="type"><a href="Otr.State.html#TYPEsession">Otr.State.session</a> -> string option</code></pre><div class="info ">
+<code class="code">their_fingerprint session</code> is <code class="code">fp</code>, the fingerprint of the
+      communication partner (<code class="code"><span class="constructor">None</span></code> if no session is established).<br>
+</div>
+
+<pre><span id="VALown_fingerprint"><span class="keyword">val</span> own_fingerprint</span> : <code class="type">Nocrypto.Dsa.priv -> string</code></pre><div class="info ">
+<code class="code">own_fingerprint dsa</code> is <code class="code">fp</code>, the fingerprint of the private
+      DSA key.<br>
+</div>
+</body></html>

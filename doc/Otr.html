@@ -1,0 +1,61 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN">
+<html>
+<head>
+<link rel="stylesheet" href="style.css" type="text/css">
+<meta content="text/html; charset=utf-8" http-equiv="Content-Type">
+<link rel="Start" href="index.html">
+<link rel="Up" href="index.html">
+<link title="Index of types" rel=Appendix href="index_types.html">
+<link title="Index of values" rel=Appendix href="index_values.html">
+<link title="Index of modules" rel=Appendix href="index_modules.html">
+<link title="Otr" rel="Chapter" href="Otr.html"><title>Otr</title>
+</head>
+<body>
+<div class="navbar">&nbsp;<a class="up" href="index.html" title="Index">Up</a>
+&nbsp;</div>
+<h1>Module <a href="type_Otr.html">Otr</a></h1>
+
+<pre><span class="keyword">module</span> Otr: <code class="code"><span class="keyword">sig</span></code> <a href="Otr.html">..</a> <code class="code"><span class="keyword">end</span></code></pre><div class="info module top">
+Off-the-Record, in pure OCaml
+<p>
+
+    Off-the-Record (OTR) (<a href="https://otr.cypherpunks.ca/otr-wpes.pdf">
+    developed by Goldberg et al.</a>) is a cryptographic protocol used in
+    instant messaging.  It provides both authentication (using
+    long-term 1024 bit DSA keys), and encryption (using AES 128 in
+    counter mode).  An authenticated Diffie-Hellman key exchange (with
+    1536 bit <a href="https://tools.ietf.org/html/rfc3526#section-2">Oakley5</a>
+    group) establishes the shared secrets (providing forward secrecy).
+<p>
+
+    The
+    <a href="https://en.wikipedia.org/wiki/Socialist_millionaire">socialist
+    millionaire problem</a> (SMP) allows in-band verification of the
+    long-term DSA keys using a shared secret and zero knowledge
+    proofs.
+<p>
+
+    This implementation covers both protocol
+    <a href="https://otr.cypherpunks.ca/Protocol-v2-3.1.0.html">version 2</a>
+    and <a href="https://otr.cypherpunks.ca/Protocol-v3-4.0.0.html">version
+    3</a>, and implements the socialist millionairs problem.  <a href="Otr.State.html"><code class="code"><span class="constructor">Otr</span>.<span class="constructor">State</span></code></a>
+    defines configuration and types, <a href="Otr.Engine.html"><code class="code"><span class="constructor">Otr</span>.<span class="constructor">Engine</span></code></a> processing of incoming
+    and outgoing messages as well as initiation and teardown of
+    sessions and socialist millionairs problem, and <a href="Otr.Utils.html"><code class="code"><span class="constructor">Otr</span>.<span class="constructor">Utils</span></code></a> provides
+    basic fingerprint utilities as defined in the OTR
+    specification.<br>
+</div>
+<hr width="100%">
+
+<pre><span class="keyword">module</span> <a href="Otr.State.html">State</a>: <code class="code"><span class="keyword">sig</span></code> <a href="Otr.State.html">..</a> <code class="code"><span class="keyword">end</span></code></pre><div class="info">
+States and types
+</div>
+
+<pre><span class="keyword">module</span> <a href="Otr.Engine.html">Engine</a>: <code class="code"><span class="keyword">sig</span></code> <a href="Otr.Engine.html">..</a> <code class="code"><span class="keyword">end</span></code></pre><div class="info">
+Message processing
+</div>
+
+<pre><span class="keyword">module</span> <a href="Otr.Utils.html">Utils</a>: <code class="code"><span class="keyword">sig</span></code> <a href="Otr.Utils.html">..</a> <code class="code"><span class="keyword">end</span></code></pre><div class="info">
+Utilities
+</div>
+</body></html>
