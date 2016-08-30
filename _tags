@@ -7,4 +7,6 @@ true : package(result rresult cstruct nocrypto)
 <src/otr_parser.{ml,mli}>: package(astring), package(ppx_sexp_conv)
 <src/otr_state.{ml,mli}>: package(sexplib), package(ppx_sexp_conv)
 
+<src/otrdata.{ml,mli}>: package(astring)
+
 <feedback.{ml,native,byte}>: package(astring)

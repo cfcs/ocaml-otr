@@ -34,7 +34,7 @@ module Engine = struct
     else
       None
 
-  let handle_tlv state typ buf =
+  let handle_tlv state typ buf : State.state * 'a option * State.ret list =
     let open Otr_packet in
     match typ with
     | Some PADDING -> (state, None, [])
@@ -48,6 +48,16 @@ module Engine = struct
         | Error e ->
           let msg = Otr_smp.error_to_string e in
           ({ state with smp_state = SMPSTATE_EXPECT1 }, None, [`Warning msg])
+      end
+    | Some OTRDATA_REQUEST ->
+      begin match Otrdata.handle_otrdata_request Cstruct.(to_string buf) with
+      | `Warning _ -> state, None, [`Warning "fuck"]
+      | `Otrdata_request x -> state, None, [`Otrdata_request x]
+      end
+    | Some OTRDATA_RESPONSE ->
+      begin match Otrdata.handle_otrdata_response Cstruct.(to_string buf) with
+      | `Warning _ -> state , None , [`Warning "fuck2"]
+      | `Otrdata_response x -> state, None , [`Otrdata_response x]
       end
     | None -> (state, None, [`Warning "unknown tlv type"])
 
@@ -333,6 +343,22 @@ module Engine = struct
 
   let answer_smp ctx secret =
     handle_smp ctx (fun enc smp -> Otr_smp.handle_secret ctx.dsa enc smp secret)
+
+  let start_otrdata_get ctx request_id file_path byte_range :
+           State.session * string option * [> `Sent of string | `Sent_encrypted of string | `Warning of string ]
+=
+    begin match ctx.state.message_state with
+    | MSGSTATE_ENCRYPTED _ ->
+        send_otr ctx (Otrdata.make_otrdata_get request_id file_path byte_range)
+    | _ -> ctx, None, `Warning "Won't send unencrypted file request"
+    end
+
+  let start_otrdata_offer ctx request_id file_path hex_sha1 file_length =
+    begin match ctx.state.message_state with
+    | MSGSTATE_ENCRYPTED _ ->
+        send_otr ctx (Otrdata.make_otrdata_offer request_id file_path hex_sha1 file_length)
+    | _ -> ctx , None , `Warning "Won't send unencrypted file offer"
+    end
 end
 
 module Utils = struct

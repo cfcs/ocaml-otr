@@ -43,6 +43,8 @@ module State : sig
     | `SMP_received_question of string
     | `SMP_success
     | `SMP_failure
+    | `Otrdata_request of Otrdata.request
+    | `Otrdata_response of Otrdata.response
   ]
 
   (** OTR policies, as defined in the protocol. *)
@@ -193,6 +195,18 @@ module Engine : sig
       partners secret.  [session'] should be used in subsequent
       calls. *)
   val answer_smp : State.session -> string -> State.session * string option * State.ret list
+
+  (** [start_otrdata_get session request_id file_path byte_range] requests the
+      transfer of a byte range from a file according to the OTRDATA spec
+      see https://dev.guardianproject.info/projects/gibberbot/wiki/OTRDATA_Specifications
+      *)
+  val start_otrdata_get : State.session -> string -> string -> Int64.t * Int64.t -> State.session * string option * [> `Sent of string | `Sent_encrypted of string | `Warning of string ]
+
+
+  (** [otrdata_offer session request_id file_path hex_sha1 file_length] offers a file
+      to the other party according to the OTRDATA spec (see [otrdata_request]) *)
+  val start_otrdata_offer : State.session -> string -> string -> string -> Int64.t -> State.session * string option * [> `Sent of string | `Sent_encrypted of string | `Warning of string ]
+
 end
 
 (** Utilities *)

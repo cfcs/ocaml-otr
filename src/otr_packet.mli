@@ -19,5 +19,7 @@ type tlv_type =
   | SMP_ABORT [@id 6]
   | SMP_MESSAGE_1Q [@id 7]
   | EXTRA_SYMMETRIC_KEY [@id 8]
+  | OTRDATA_REQUEST [@id 256] (* 0x100 *)
+  | OTRDATA_RESPONSE [@id 257] (* 0x101 *)
   [@@uint16_t] [@@sexp]
 ]

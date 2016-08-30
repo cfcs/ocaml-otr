@@ -8,6 +8,8 @@ type ret = [
   | `SMP_received_question of string
   | `SMP_success
   | `SMP_failure
+  | `Otrdata_request of Otrdata.request
+  | `Otrdata_response of Otrdata.response
 ]
 
 type dh_params = (Nocrypto.Dh.secret * Cstruct.t) [@@deriving sexp]
