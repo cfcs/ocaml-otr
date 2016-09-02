@@ -382,13 +382,10 @@ module Engine = struct
     | _ -> ctx, None, `Warning "Won't send unencrypted file request"
     end
 
-  let start_otrdata_offer ctx request_id file_path hex_sha1 file_length =
+  let start_otrdata_offer ctx serialized_request =
     begin match ctx.state.message_state with
     | MSGSTATE_ENCRYPTED _ ->
-       let request =
-         Otrdata.make_otrdata_offer request_id file_path hex_sha1 file_length
-         |> encode_otrdata_request
-       in
+       let request = encode_otrdata_request serialized_request in
        send_otr ctx request
     | _ -> ctx , None , `Warning "Won't send unencrypted file offer"
     end

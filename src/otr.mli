@@ -207,7 +207,7 @@ module Engine : sig
 
   (** [otrdata_offer session request_id file_path hex_sha1 file_length] offers a file
       to the other party according to the OTRDATA spec (see [otrdata_request]) *)
-  val start_otrdata_offer : State.session -> string -> string -> string -> Int64.t -> State.session * string option * [> `Sent of string | `Sent_encrypted of string | `Warning of string ]
+  val start_otrdata_offer : State.session -> string -> State.session * string option * [> `Sent of string | `Sent_encrypted of string | `Warning of string ]
 
 end
 
