@@ -27,6 +27,8 @@
     {e %%VERSION%% - {{:%%PKG_HOMEPAGE%% }homepage}}
  *)
 
+module Otrdata : module type of Otrdata
+
 (** States and types *)
 module State : sig
 

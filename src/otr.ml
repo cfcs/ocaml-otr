@@ -1,5 +1,7 @@
 module State = Otr_state
 
+module Otrdata = Otrdata
+
 module Engine = struct
   open Otr_state
   open Rresult
@@ -49,16 +51,34 @@ module Engine = struct
           let msg = Otr_smp.error_to_string e in
           ({ state with smp_state = SMPSTATE_EXPECT1 }, None, [`Warning msg])
       end
-    | Some OTRDATA_REQUEST ->
-      begin match Otrdata.handle_otrdata_request Cstruct.(to_string buf) with
-      | `Warning _ -> state, None, [`Warning "fuck"]
-      | `Otrdata_request x -> state, None, [`Otrdata_request x]
-      end
-    | Some OTRDATA_RESPONSE ->
-      begin match Otrdata.handle_otrdata_response Cstruct.(to_string buf) with
-      | `Warning _ -> state , None , [`Warning "fuck2"]
-      | `Otrdata_response x -> state, None , [`Otrdata_response x]
-      end
+    | Some ((OTRDATA_REQUEST | OTRDATA_RESPONSE) as tlv_tag)->
+       let what_the_fuck_why_is_the_header_in_here =
+         let buf = Cstruct.to_string buf in
+         String.sub buf 8 String.((length buf)-8)
+       in
+       let hexdump =
+         let b = Buffer.create 10 in
+         let () = Cstruct.hexdump_to_buffer b buf in
+         (Bytes.to_string Buffer.(to_bytes b))
+       in
+       begin match tlv_tag with
+       | OTRDATA_REQUEST ->
+           begin match Otrdata.handle_otrdata_request what_the_fuck_why_is_the_header_in_here with
+           | `Warning err ->
+                state, None, [`Warning ("OTRDATA request: " ^ err ^ " - " ^ hexdump)]
+           | `Otrdata_request req ->
+                state, None, [`Otrdata_request req]
+           end
+       | OTRDATA_RESPONSE ->
+           begin match Otrdata.handle_otrdata_response what_the_fuck_why_is_the_header_in_here with
+           | `Warning err ->
+                state , None , [`Warning ("OTRDATA response:" ^ err ^ " - " ^ hexdump)]
+           | `Otrdata_response resp ->
+                state, None , [`Otrdata_response resp]
+           end
+       | _ -> ignore @@ failwith "TODO should never happen" ; state, None, []
+       end
+
     | None -> (state, None, [`Warning "unknown tlv type"])
 
   let rec filter_map ?(f = fun x -> x) = function
@@ -344,19 +364,32 @@ module Engine = struct
   let answer_smp ctx secret =
     handle_smp ctx (fun enc smp -> Otr_smp.handle_secret ctx.dsa enc smp secret)
 
-  let start_otrdata_get ctx request_id file_path byte_range :
-           State.session * string option * [> `Sent of string | `Sent_encrypted of string | `Warning of string ]
-=
+  let encode_otrdata_request request_str =
+    let request = Cstruct.of_string ~allocator:(Cstruct.create) request_str in
+    "\x00" (* the OTR spec puts TLVs after the first \0 in the msg *)
+    ^ ( Builder.tlv ~data:[request] Packet.OTRDATA_REQUEST
+        |> Cstruct.to_string
+      )
+
+  let start_otrdata_get ctx request_id file_path byte_range =
     begin match ctx.state.message_state with
     | MSGSTATE_ENCRYPTED _ ->
-        send_otr ctx (Otrdata.make_otrdata_get request_id file_path byte_range)
+       let request =
+         Otrdata.make_otrdata_get request_id file_path byte_range
+         |> encode_otrdata_request
+       in
+       send_otr ctx request
     | _ -> ctx, None, `Warning "Won't send unencrypted file request"
     end
 
   let start_otrdata_offer ctx request_id file_path hex_sha1 file_length =
     begin match ctx.state.message_state with
     | MSGSTATE_ENCRYPTED _ ->
-        send_otr ctx (Otrdata.make_otrdata_offer request_id file_path hex_sha1 file_length)
+       let request =
+         Otrdata.make_otrdata_offer request_id file_path hex_sha1 file_length
+         |> encode_otrdata_request
+       in
+       send_otr ctx request
     | _ -> ctx , None , `Warning "Won't send unencrypted file offer"
     end
 end
