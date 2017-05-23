@@ -367,7 +367,7 @@ module Engine = struct
   let encode_otrdata_request request_str =
     let request = Cstruct.of_string ~allocator:(Cstruct.create) request_str in
     "\x00" (* the OTR spec puts TLVs after the first \0 in the msg *)
-    ^ ( Builder.tlv ~data:[request] Packet.OTRDATA_REQUEST
+    ^ ( Otr_builder.tlv ~data:[request] Otr_packet.OTRDATA_REQUEST
         |> Cstruct.to_string
       )
 
